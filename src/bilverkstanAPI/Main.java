@@ -14,30 +14,17 @@ public class Main {
 			"jdbc:mysql://localhost:3306/bilverkstaden";
 	
 
-	public static void main(String[] args) throws SQLException {
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSetImpl rs = null;
-		
-		try {
-			conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
-			
-			stmt = (Statement) conn.createStatement();
-			
-			rs = (ResultSetImpl) stmt.executeQuery("Select * from Costumer");
+	public static void main(String[] args) throws SQLException {	
+		try (
+				Connection conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
+				Statement stmt = (Statement) conn.createStatement();
+				ResultSetImpl rs = (ResultSetImpl) stmt.executeQuery("Select * from Costumer");
+				) {
+
 			rs.last();
 			System.out.println("nr " + rs.getRow());
-		//	System.out.println("connected");
 		} catch (SQLException e) {
 			System.err.println(e);
-		} finally {
-			if(conn != null) {
-				conn.close();
-			}
-		}
-		
-		
-
+		} 
 	}
-
 }
